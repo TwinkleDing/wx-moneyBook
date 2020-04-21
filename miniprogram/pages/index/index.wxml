@@ -1,38 +1,95 @@
 <!--index.wxml-->
 <view class="container">
-
   <!-- 用户 openid -->
   <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
-      style="background-image: url({{avatarUrl}})"
-      size="default"
-    ></button>
+    <image src='{{ avatarUrl }}' class='userinfo-avatar'></image>
     <view class="userinfo-nickname-wrapper">
-      <button class="userinfo-nickname" bindtap="onGetOpenid">点击获取 openid</button>
+      {{ userInfo.nickName }}
     </view>
   </view>
-
-  <view class="uploader">
-    <navigator url="../ji/ji" open-type="navigate" class="uploader-text">
-      <text>记账</text>
-    </navigator>
+  <view class='calendar'>
+    <view class='box'>
+      <view class='title'>
+        <text class='go' bindtap='goLast'>←</text>
+        <text class='now'>{{ titleDate }}</text>
+        <text class='go' bindtap='goNext'>→</text>
+      </view>
+      <view class='content'>
+        <view class='content-title'>
+          <text wx:key='index' wx:for="{{ weekTitle }}">{{ item }}</text>
+        </view>
+        <view class='content-box'>
+          <view class='content-box-item' wx:key='index' wx:for="{{ dateList }}">
+            <text class='{{ item === day ? "now-day" : "" }}'>{{ item }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view>
+        干啥去了：{{ even }}
+        <input bindinput="evenInput" placeholder="干啥去了"/> 
+      </view>
+      <view>
+        花了多钱：{{ money }}
+        <input bindinput="moneyInput"  type='number' placeholder="花了多钱" />
+      </view>
+      <button type='primary' bindtap="addMoney" >添加</button>
+    </view>
+    <view>
+      <view  wx:key='index' wx:for="{{ moneyList }}">
+        <view>
+          干啥去了：
+          <text>{{ item.even}}</text>
+        </view>
+        <view>
+          花了多钱：
+          <text>{{ item.money}}</text>
+        </view>
+      </view>
+    </view>
   </view>
-
-  <!-- 操作数据库 -->
-  <view class="uploader">
-    <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-      <text>前端操作数据库</text>
-    </navigator>
-  </view>
-
-  <!-- 新建云函数 -->
-  <view class="uploader">
-    <navigator url="../addFunction/addFunction" open-type="navigate" class="uploader-text">
-      <text>快速新建云函数</text>
-    </navigator>
+  <view class='calendar'>
+    <view class='box'>
+      <view class='title'>
+        <text class='go' bindtap='goLast'>←</text>
+        <text class='now'>{{ titleDate }}</text>
+        <text class='go' bindtap='goNext'>→</text>
+      </view>
+      <view class='content'>
+        <view class='content-title'>
+          <text wx:key='index' wx:for="{{ weekTitle }}">{{ item }}</text>
+        </view>
+        <view class='content-box'>
+          <view class='content-box-item' wx:key='index' wx:for="{{ dateList }}">
+            <text class='{{ item === day ? "now-day" : "" }}'>{{ item }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view>
+        干啥去了：{{ even }}
+        <input bindinput="evenInput" placeholder="干啥去了"/> 
+      </view>
+      <view>
+        花了多钱：{{ money }}
+        <input bindinput="moneyInput"  type='number' placeholder="花了多钱" />
+      </view>
+      <button type='primary' bindtap="addMoney" >添加</button>
+    </view>
+    <view>
+      <view  wx:key='index' wx:for="{{ moneyList }}">
+        <view>
+          干啥去了：
+          <text>{{ item.even}}</text>
+        </view>
+        <view>
+          花了多钱：
+          <text>{{ item.money}}</text>
+        </view>
+      </view>
+    </view>
   </view>
 
 </view>
