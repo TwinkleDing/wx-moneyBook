@@ -57,3 +57,8 @@ page{
   height: 25px;
   line-height: 25px;
 }
+input{
+  outline: 1px solid #ac0;
+  height: 40px;
+  margin: 10px 0;
+}

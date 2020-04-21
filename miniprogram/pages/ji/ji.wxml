@@ -17,5 +17,15 @@
       </view>
     </view>
   </view>
-  <view></view>
+  <view>
+    <view>
+      干啥去了：{{ even }}
+      <input bindinput="evenInput" placeholder="干啥去了"/> 
+    </view>
+    <view>
+      花了多钱：{{ money }}
+      <input bindinput="moneyInput"  type='number' placeholder="花了多钱" />
+    </view>
+    <button type='primary' bindtap="addMoney" >添加</button>
+  </view>
 </view>
