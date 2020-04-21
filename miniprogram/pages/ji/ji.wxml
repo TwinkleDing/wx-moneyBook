@@ -1,0 +1,21 @@
+<!--miniprogram/pages/ji/ji.wxml-->
+<view class='calendar'>
+  <view class='box'>
+    <view class='title'>
+      <text class='go' bindtap='goLast'>←</text>
+      <text class='now'>{{ titleDate }}</text>
+      <text class='go' bindtap='goNext'>→</text>
+    </view>
+    <view class='content'>
+      <view class='content-title'>
+        <text wx:key='index' wx:for="{{ weekTitle }}">{{ item }}</text>
+      </view>
+      <view class='content-box'>
+        <view class='content-box-item' wx:key='index' wx:for="{{ dateList }}">
+          <text class='{{ item === day ? "now-day" : "" }}'>{{ item }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view></view>
+</view>
