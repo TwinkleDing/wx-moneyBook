@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    openid: '',
+    openid: 'orUwl0Ttka7XODmdlZaGU8AootWA',
     titleDate: '',
     dateList: [],
     weekTitle:['日','一','二','三','四','五','六'],
@@ -14,7 +14,8 @@ Page({
     month: '',
     day: '',
     even: '',
-    number: ''
+    number: '',
+    moneyList: []
   },
   goLast() {
     console.log('last')
@@ -69,6 +70,26 @@ Page({
       even: e.detail.value
     })
   },
+  getList() {
+    const db = wx.cloud.database()
+    // 查询当前用户所有的 counters
+    db.collection('money_book').where({
+      _openid: this.data.openid
+    }).get({
+      success: res => {
+        this.setData({
+          moneyList: res.data
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      }
+    })
+  },
   addMoney() {
     if(!this.data.even.replace(/(^\s*)|(\s*$)/g, "") || !this.data.money.replace(/(^\s*)|(\s*$)/g, "")) {
       wx.showToast({
@@ -115,11 +136,7 @@ Page({
   onLoad: function (options) {
     this.getDateTitle()
     // 获取用户信息
-    if (app.globalData.openid) {
-      this.setData({
-        openid: app.globalData.openid
-      })
-    }
+    this.getList()
   },
 
   /**

@@ -28,4 +28,16 @@
     </view>
     <button type='primary' bindtap="addMoney" >添加</button>
   </view>
+  <view>
+    <view  wx:key='index' wx:for="{{ moneyList }}">
+      <view>
+        干啥去了：
+        <text>{{ item.even}}</text>
+      </view>
+      <view>
+        花了多钱：
+        <text>{{ item.money}}</text>
+      </view>
+    </view>
+  </view>
 </view>
