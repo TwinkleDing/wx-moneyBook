@@ -50,4 +50,10 @@ page{
 }
 .now-day{
   color: #409EFF;
+  border-radius: 50%;
+  border: 1px solid;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
 }
