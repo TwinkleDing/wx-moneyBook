@@ -1,15 +1,11 @@
 /**index.wxss**/
 page {
-  background: #f6f6f6;
+  background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: hidden;
-  overflow-y: auto;
-  overflow-s: none;
 }
 .userinfo {
-  margin-top: 40rpx;
   height: 140rpx;
   width: 100%;
   background: #fff;
@@ -20,9 +16,8 @@ page {
   flex-direction: row;
   align-items: center;
   transition: all 300ms ease;
-}
-.userinfo {
-  padding-left: 120rpx;
+  padding-left: 60rpx;
+  box-sizing: border-box;
 }
 .userinfo-avatar {
   width: 100rpx;
@@ -39,40 +34,39 @@ page {
   background-size: cover;
   text-align: left;
   padding-left: 0;
-  margin-left: 10px;
+  margin-left: 20rpx;
 }
 .userinfo-nickname-wrapper {
   flex: 1;
 }
 .calendar{
   height: 100%;
-  width: 100vw;
 }
 .box{
 
 }
 .title{
-  height: 40px;
+  height: 80rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
-  background-color: #fafafa;
+  padding: 0 80rpx;
+  background-color: #fff;
 }
 .go{
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
-  border: 1px solid #409EFF;
+  border: 2rpx solid #409EFF;
   text-align: center;
-  line-height: 30px;
+  line-height: 60rpx;
 }
 .content{
-  padding: 0 20px;
+  padding: 0 40rpx;
 }
 .content-title{
-  height: 40px;
+  height: 80rpx;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -86,25 +80,39 @@ page {
   flex-wrap: wrap;
 }
 .content-box-item{
-  width: 14.28%;
+  width: 14%;
   text-align: center;
-  height: 40px;
-  line-height: 40px;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.content-box-item text{
+  border-radius: 50%;
+  display: inline-block;
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
 }
 .now-day{
   color: #409EFF;
-  border-radius: 50%;
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  border: 1px solid #409EFF;
-}
-input{
-  outline: 1px solid #ac0;
-  height: 40px;
-  margin: 10px 0;
+  border: 2rpx solid #409EFF;
 }
 .active{
-  /* border: 1px solid #ac0; */
+  border: 1px solid #1AAD19;
+}
+.input-box{
+
+}
+.input-view{
+  display: flex;
+  align-items: center;
+  padding-left: 40rpx;
+}
+
+input{
+  height: 80rpx;
+  margin: 20rpx 0;
+  padding-left: 20rpx;
+  border-right: 2rpx solid #409EFF;
+  border-bottom: 2rpx solid #409EFF;
+  border-radius: 0 0 20rpx 0;
 }

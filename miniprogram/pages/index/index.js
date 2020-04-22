@@ -14,15 +14,53 @@ Page({
     day: '',
     even: '',
     number: '',
-    moneyList: []
+    moneyList: [],
+    active: false,
+    nowYear: '',
+    nowMonth: '',
+    nowDay: '',
+    moveX: ''
   },
   goLast() {
-    console.log('last')
+    this.getDateTitle('last')
   },
   goNext() {
-    console.log('next')
+    console.log(1)
+    this.getDateTitle('next')
   },
-  getDateTitle() {
+  dayClick(e) {
+    this.setData({
+      active: e.currentTarget.dataset.day,
+      year: this.data.year,
+      month: this.data.month,
+      day: e.currentTarget.dataset.day,
+    })
+    let showDate= `${this.data.year}-${this.data.month}-${this.data.day}`
+    this.getList(showDate)
+  },
+  moveStart(e) {
+    this.setData({
+      moveX: e.changedTouches[0].pageX
+    })
+  },
+  moveEnd(e) {
+    e.changedTouches[0].pageX - this.data.moveX > 100 ? this.goLast() : '';
+    e.changedTouches[0].pageX - this.data.moveX < -100 ? this.goNext() : '';
+  },
+  getDateTitle(type) {
+    if(type === 'next') {
+      this.getNext()
+    }else if(type === 'last') {
+      this.getLast()
+    }else {
+      this.getNow()
+    }
+    this.boxList()
+    if(this.data.year === this.data.nowYear && this.data.month === this.data.nowMonth) {
+      this.getList(this.getDate())
+    }
+  },
+  getNow() {
     const year = new Date().getFullYear()
     const month = new Date().getMonth()<9 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const day = new Date().getDate()
@@ -30,12 +68,50 @@ Page({
       titleDate: year + '-' + month,
       year,
       month,
-      day
+      day,
+      nowYear: year,
+      nowMonth: month,
+      nowDay: day
     })
-    this.boxList()
+  },
+  getLast() {
+    let year = this.data.year
+    let month = this.data.month
+    if(Number(month) - 1 < 1) {
+      month = 12
+      year = Number(year) - 1
+    }else {
+      month = Number(month) - 1
+    }
+    month = month < 10 ? '0' + month : month
+    this.setData({
+      titleDate: `${year}-${month}`,
+      year,
+      month,
+      active: false,
+      moneyList: []
+    })
+  },
+  getNext() {
+    let year = this.data.year
+    let month = this.data.month
+    if(Number(month) + 1 > 12) {
+      month = 1
+      year = Number(year) + 1
+    }else {
+      month = Number(month) + 1
+    }
+    month = month < 10 ? '0' + month : month
+    this.setData({
+      titleDate: `${year}-${month}`,
+      year,
+      month,
+      active: false,
+      moneyList: []
+    })
   },
   boxList() {
-    const dayFirst = new Date().getDay()
+    const dayFirst = new Date(`${this.data.year}/${this.data.month}/1`).getDay()
     let dayLength = 31
     if([4,6,9,11].includes(this.data.month)) {
       dayLength = 30
@@ -69,11 +145,15 @@ Page({
       even: e.detail.value
     })
   },
-  getList() {
+  getList(date) {
+    if(!this.data.openid) {
+      return false
+    }
     const db = wx.cloud.database()
     // 查询当前用户所有的 counters
     db.collection('money_book').where({
-      _openid: this.data.openid
+      _openid: this.data.openid,
+      date: date
     }).get({
       success: res => {
         this.setData({
@@ -83,6 +163,15 @@ Page({
     })
   },
   addMoney() {
+    console.log(this.data.openid)
+    if(!this.data.openid) {
+      wx.showToast({
+        title: '无登录无法添加',
+        icon: 'none'
+      })
+      return false
+    }
+    const date = `${this.data.year}-${this.data.month}-${this.data.day}`
     if(!this.data.even.replace(/(^\s*)|(\s*$)/g, "") || !this.data.money.replace(/(^\s*)|(\s*$)/g, "")) {
       wx.showToast({
         icon: 'none',
@@ -93,16 +182,16 @@ Page({
     const db = wx.cloud.database()
     db.collection('money_book').add({
       data: {
-        money: this.data.money,
+        money: Number(this.data.money),
         even: this.data.even,
-        date: this.getDate()
+        date
       },
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id
         wx.showToast({
-          title: '新增记录成功',
+          title: '记账成功',
         })
-        this.getList()
+        this.getList(this.getDate())
       }
     })
   },
@@ -120,20 +209,31 @@ Page({
     // 获取用户信息
     wx.getSetting({
       success: res => {
+        console.log(res)
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
+              console.log(res)
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo,
-                openid: res.userInfo.openid
+                openid: res.userInfo.openid,
               })
-              this.getList()
+              this.getList(this.getDate())
             }
           })
         }
       }
     })
+  },
+  onGetUserInfo: function(e) {
+    if (!this.data.logged && e.detail.userInfo) {
+      this.setData({
+        logged: true,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        userInfo: e.detail.userInfo
+      })
+    }
   }
 })
