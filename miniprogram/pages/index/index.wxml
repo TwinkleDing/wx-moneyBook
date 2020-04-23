@@ -1,20 +1,5 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- 用户 openid -->
-  <view class="userinfo" open-type="getUserInfo">
-  <view style='width:50px'>
-    <button 
-        open-type="getUserInfo" 
-        bindgetuserinfo="onGetUserInfo"
-        class="userinfo-avatar"
-        style="background-image: url({{avatarUrl}})"
-        size="default"
-      ></button>
-    </view>
-    <view class="userinfo-nickname-wrapper">
-      {{ userInfo.nickName }}
-    </view>
-  </view>
   <view class='calendar'>
     <view class='box'>
       <view class='title'>
@@ -44,15 +29,15 @@
       </view>
       <button type='primary' bindtap="addMoney" >添加</button>
     </view>
-    <view>
-      <view  wx:key='index' wx:for="{{ moneyList }}">
-        <view>
-          干啥去了：
-          <text>{{ item.even}}</text>
+    <view class='list'>
+      <view wx:key='index' wx:for="{{ moneyList }}">
+        <view class='item'>
+          <text class='item-title'>干啥去了：</text>
+          <text class='item-even'>{{ item.even}}</text>
         </view>
-        <view>
-          花了多钱：
-          <text>{{ item.money}}</text>
+        <view class='item'>
+          <text class='item-title'>花了多钱：</text>
+          <text class='item-money'>{{ item.money}}</text>
         </view>
       </view>
     </view>

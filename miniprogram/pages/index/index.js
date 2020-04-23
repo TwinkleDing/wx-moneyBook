@@ -163,7 +163,6 @@ Page({
     })
   },
   addMoney() {
-    console.log(this.data.openid)
     if(!this.data.openid) {
       wx.showToast({
         title: '无登录无法添加',
@@ -214,16 +213,25 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
-              console.log(res)
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo,
-                openid: res.userInfo.openid,
+                openid: app.globalData.openid
               })
               this.getList(this.getDate())
             }
           })
         }
+      }
+    })
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        app.globalData.openid = res.result.userInfo.openId
+        this.setData({
+          openid: res.result.userInfo.openId
+        })
       }
     })
   },

@@ -116,3 +116,15 @@ input{
   border-bottom: 2rpx solid #409EFF;
   border-radius: 0 0 20rpx 0;
 }
+.item{
+  padding: 6rpx 40rpx;
+}
+.item-title{
+  font-weight: 400;
+}
+.item-even{
+  color: #409EFF;
+}
+.item-money{
+  color: #1AAD19;
+}
