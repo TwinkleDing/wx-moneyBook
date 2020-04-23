@@ -12,6 +12,7 @@ Page({
     year: '',
     month: '',
     day: '',
+    showInput: false,
     even: '',
     number: '',
     moneyList: [],
@@ -19,7 +20,34 @@ Page({
     nowYear: '',
     nowMonth: '',
     nowDay: '',
-    moveX: ''
+    moveX: '',
+    extraClasses: ''
+  },
+  showInputS() {
+    if (this.data.extraClasses == 'box-transition ani-box-show') {
+      this.setData({
+        extraClasses: 'box-transition',
+        showInput: true
+      })
+    } else {
+      this.setData({
+        extraClasses: 'box-transition ani-box-show',
+        showInput: true
+      })
+    }
+  },
+  closeInputS() {
+    if (this.data.extraClasses == 'box-transition ani-box-show') {
+      this.setData({
+        extraClasses: 'box-transition',
+        showInput: false
+      })
+    } else {
+      this.setData({
+        extraClasses: 'box-transition ani-box-show',
+        showInput: false
+      })
+    }
   },
   goLast() {
     this.getDateTitle('last')
@@ -190,6 +218,11 @@ Page({
         wx.showToast({
           title: '记账成功',
         })
+        this.setData({
+          money: '',
+          even: ''
+        })
+        this.closeInputS()
         this.getList(this.getDate())
       }
     })

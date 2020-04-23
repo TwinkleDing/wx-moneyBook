@@ -18,29 +18,38 @@
         </view>
       </view>
     </view>
-    <view class='input-box'>
+    <view class='input-box ani-box-hide {{extraClasses}}'>
       <view class='input-view'>
-        <text>干啥去了：</text>
+        <view class='input-text'>
+          <text>干啥去了:</text>
+        </view>
         <input bindinput="evenInput" placeholder="干啥去了 ？？？"/> 
       </view>
       <view class='input-view'>
-        <text>花了多钱：</text>
-        <input bindinput="moneyInput"  type='number' placeholder="花了多钱 ？？？" />
+        <view class='input-text'>
+          <text>花了多钱:</text>
+        </view>
+        <input bindinput="moneyInput"  type='digit' placeholder="花了多钱 ？？？" />
       </view>
-      <button type='primary' bindtap="addMoney" >添加</button>
+      <view class='input-view'>
+      <button type='primary' size='mini' bindtap="closeInputS" >取消</button>
+      <button type='primary' size='mini' bindtap="addMoney" >添加</button>
+      </view>
+    </view>
+    <view class='input-box' wx:if="{{ !showInput }}">
+      <button type='primary' bindtap="showInputS" >新增账单信息</button>
     </view>
     <view class='list'>
       <view wx:key='index' wx:for="{{ moneyList }}">
         <view class='item'>
-          <text class='item-title'>干啥去了：</text>
+          <text class='item-title'>干啥去了:</text>
           <text class='item-even'>{{ item.even}}</text>
         </view>
         <view class='item'>
-          <text class='item-title'>花了多钱：</text>
+          <text class='item-title'>花了多钱:</text>
           <text class='item-money'>{{ item.money}}</text>
         </view>
       </view>
     </view>
   </view>
-
 </view>
