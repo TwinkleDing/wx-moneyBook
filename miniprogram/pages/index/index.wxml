@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <!-- <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
   <view class='calendar'>
     <view class='box'>
       <view class='title'>
@@ -39,19 +40,21 @@
     <view class='input-box' wx:if="{{ !showInput }}">
       <button type='primary' bindtap="showInputS" >新增账单信息</button>
     </view>
-    <view class='total'>
-      <text class='total-title'>今日一共:</text>
-      <text class='total-money'>{{ totalMoney }}</text>
-    </view>
-    <view class='list'>
-      <view wx:key='index' wx:for="{{ moneyList }}">
+    <view class='money-content'>
+      <view class='total'>
+        <text class='total-title item-1'>今日一共</text>
+        <text class='total-money item-2'>{{ totalMoney }}</text>
+      </view>
+      <view class='list'>
         <view class='item'>
-          <text class='item-title'>干啥去了:</text>
-          <text class='item-even'>{{ item.even }}</text>
+          <text class='item-title item-1'>干啥去了</text>
+          <text class='item-title item-2'>花了多钱</text>
         </view>
-        <view class='item'>
-          <text class='item-title'>花了多钱:</text>
-          <text class='item-money'>{{ item.money }}</text>
+        <view wx:key='index' wx:for="{{ moneyList }}">
+          <view class='item'>
+            <text class='item-even item-1'>{{ item.even }}</text>
+            <text class='item-money item-2'>{{ item.money }}</text>
+          </view>
         </view>
       </view>
     </view>

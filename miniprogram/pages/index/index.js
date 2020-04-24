@@ -3,6 +3,7 @@ const app = getApp()
 
 Page({
   data: {
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     openid: '',
@@ -173,12 +174,18 @@ Page({
       date: date
     }).get({
       success: res => {
-        let totalMoney = res.data.reduce((last, item)=>{
-          return last + item.money
+        let moneyList = res.data.map(item=>{
+          return {
+            even: item.even,
+            money: item.money.toFixed(2)
+          }
+        })
+        let totalMoney = moneyList.reduce((last, item)=>{
+          return last + Number(item.money)
         },0)
         this.setData({
-          moneyList: res.data,
-          totalMoney
+          moneyList,
+          totalMoney: totalMoney.toFixed(2)
         })
       }
     })
@@ -238,10 +245,10 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
+              console.log(res)
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo,
-                openid: app.globalData.openid
               })
               this.getList(this.getDate())
             }
@@ -261,13 +268,7 @@ Page({
       }
     })
   },
-  onGetUserInfo: function(e) {
-    if (!this.data.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
+  bindGetUserInfo (e) {
+    console.log(e.detail.userInfo)
   }
 })

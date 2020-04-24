@@ -111,8 +111,12 @@ page {
   margin: 0 20rpx;
 }
 .input-text{
+  border-top: 2rpx solid #409EFF;
+  border-left: 2rpx solid #409EFF;
   border-bottom: 2rpx solid #409EFF;
+  border-radius: 20rpx 0 0 20rpx;
   display: inline-block;
+  padding-left: 20rpx;
   height: 80rpx;
   line-height: 80rpx;
 }
@@ -127,9 +131,13 @@ input{
   height: 80rpx;
   margin: 20rpx 0;
   padding-left: 20rpx;
+  border-top: 2rpx solid #409EFF;
   border-right: 2rpx solid #409EFF;
   border-bottom: 2rpx solid #409EFF;
-  border-radius: 0 0 20rpx 0;
+  border-radius: 0 20rpx 20rpx 0;
+}
+.money-content{
+  padding: 20rpx;
 }
 .total{
   padding: 6rpx 40rpx;
@@ -139,22 +147,40 @@ input{
 
 }
 .total-money{
-  margin-left: 20rpx;
+  display: inline-block;
+  color: coral;
   font-weight: 600;
+  width: 128rpx;
+  text-align: right;
 }
-.item{
-  padding: 6rpx 40rpx;
+.item, .total{
+  padding: 0 40rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+}
+.item text, .total text{
+  height: 100%;
 }
 .item-title{
   font-weight: 400;
 }
 .item-even{
   color: #409EFF;
-  margin-left: 20rpx;
 }
 .item-money{
+  display: inline-block;
   color: #1AAD19;
-  margin-left: 20rpx;
+  width: 128rpx;
+  text-align: right;
+
+  font-weight: 600;
+}
+.item-1{
+  display: inline-block;
+  width: 250rpx;
+}
+.item-2{
+  display: inline-block;
 }
 
 .box-transition {
