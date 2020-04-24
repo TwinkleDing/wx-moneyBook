@@ -15,7 +15,7 @@ Page({
     day: '',
     showInput: false,
     even: '',
-    number: '',
+    money: '',
     moneyList: [],
     active: false,
     nowYear: '',
@@ -23,7 +23,8 @@ Page({
     nowDay: '',
     moveX: '',
     extraClasses: '',
-    totalMoney: ''
+    totalMoney: '',
+    time: false
   },
   showInputS() {
     this.setData({
@@ -177,7 +178,7 @@ Page({
         let moneyList = res.data.map(item=>{
           return {
             even: item.even,
-            money: item.money.toFixed(2)
+            money: Number(item.money).toFixed(2)
           }
         })
         let totalMoney = moneyList.reduce((last, item)=>{
@@ -191,6 +192,12 @@ Page({
     })
   },
   addMoney() {
+    if(this.data.time) {
+      return false
+    }
+    this.setData({
+      time: true
+    })
     if(!this.data.openid) {
       wx.showToast({
         title: '无登录无法添加',
@@ -218,10 +225,11 @@ Page({
         wx.showToast({
           title: '记账成功',
         })
-        this.setData({
-          money: '',
-          even: ''
-        })
+        setTimeout(() => {
+          this.setData({
+            time: false
+          })
+        }, 1000);
         this.closeInputS()
         this.getList(this.getDate())
       }
@@ -238,35 +246,30 @@ Page({
   },
   onLoad() {
     this.getDateTitle()
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              console.log(res)
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo,
-              })
-              this.getList(this.getDate())
-            }
+    const openid =wx.getStorageSync('openid')
+    if(openid) {
+      app.globalData.openid = openid
+      this.setData({
+        openid
+      })
+      this.getList(this.getDate())
+    }else {
+      wx.cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          wx.setStorage({
+            key: 'openid',
+            data: res.result.userInfo.openId
           })
+          app.globalData.openid = res.result.userInfo.openId
+          this.setData({
+            openid: app.globalData.openid
+          })
+          this.getList(this.getDate())
         }
-      }
-    })
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        app.globalData.openid = res.result.userInfo.openId
-        this.setData({
-          openid: res.result.userInfo.openId
-        })
-        this.getList(this.getDate())
-      }
-    })
+      })
+    }
   },
   bindGetUserInfo (e) {
     console.log(e.detail.userInfo)

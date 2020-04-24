@@ -1,6 +1,7 @@
 //app.js
 App({
   onLaunch() {
+    this.globalData = {}
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -13,9 +14,22 @@ App({
         traceUser: true,
       })
     }
-    this.globalData = {};
     wx.showShareMenu({
       withShareTicket: true
+    })
+    // 获取用户授权信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.globalData.avatarUrl = res.userInfo.avatarUrl
+              this.globalData.userInfo = res.userInfo
+            }
+          })
+        }
+      }
     })
   }
 })

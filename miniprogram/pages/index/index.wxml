@@ -1,6 +1,12 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
+  <view>
+    <view class='userinfo'>
+      <open-data class='userinfo-avatar' type="userAvatarUrl"></open-data>
+      <open-data class='userinfo-nickname' type="userNickName"></open-data>
+    </view>
+    <!-- <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
+  </view>
   <view class='calendar'>
     <view class='box'>
       <view class='title'>
@@ -24,13 +30,13 @@
         <view class='input-text'>
           <text>干啥去了:</text>
         </view>
-        <input bindinput="evenInput" placeholder="干啥去了 ？？？"/> 
+        <input bindinput="evenInput" value='{{ even }}' placeholder="干啥去了 ？？？"/> 
       </view>
       <view class='input-view'>
         <view class='input-text'>
           <text>花了多钱:</text>
         </view>
-        <input bindinput="moneyInput"  type='digit' placeholder="花了多钱 ？？？" />
+        <input bindinput="moneyInput" value='{{ money }}' type='digit' placeholder="花了多钱 ？？？" />
       </view>
       <view class='input-view'>
       <button type='primary' size='mini' bindtap="closeInputS" >取消</button>
@@ -43,7 +49,7 @@
     <view class='money-content'>
       <view class='total'>
         <text class='total-title item-1'>今日一共</text>
-        <text class='total-money item-2'>{{ totalMoney }}</text>
+        <text class='total-money item-2'>￥{{ totalMoney }}</text>
       </view>
       <view class='list'>
         <view class='item'>

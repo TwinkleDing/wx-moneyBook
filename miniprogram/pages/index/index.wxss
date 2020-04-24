@@ -26,6 +26,7 @@ page {
   border-radius: 50%;
   background-size: cover;
   background-color: white;
+  overflow: hidden;
 }
 .userinfo-nickname {
   font-size: 32rpx;
