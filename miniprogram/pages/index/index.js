@@ -21,33 +21,22 @@ Page({
     nowMonth: '',
     nowDay: '',
     moveX: '',
-    extraClasses: ''
+    extraClasses: '',
+    totalMoney: ''
   },
   showInputS() {
-    if (this.data.extraClasses == 'box-transition ani-box-show') {
-      this.setData({
-        extraClasses: 'box-transition',
-        showInput: true
-      })
-    } else {
-      this.setData({
-        extraClasses: 'box-transition ani-box-show',
-        showInput: true
-      })
-    }
+    this.setData({
+      extraClasses: 'box-transition ani-box-show',
+      showInput: true
+    })
   },
   closeInputS() {
-    if (this.data.extraClasses == 'box-transition ani-box-show') {
-      this.setData({
-        extraClasses: 'box-transition',
-        showInput: false
-      })
-    } else {
-      this.setData({
-        extraClasses: 'box-transition ani-box-show',
-        showInput: false
-      })
-    }
+    this.setData({
+      extraClasses: 'box-transition',
+      showInput: false,
+      money: '',
+      even: ''
+    })
   },
   goLast() {
     this.getDateTitle('last')
@@ -184,8 +173,12 @@ Page({
       date: date
     }).get({
       success: res => {
+        let totalMoney = res.data.reduce((last, item)=>{
+          return last + item.money
+        },0)
         this.setData({
-          moneyList: res.data
+          moneyList: res.data,
+          totalMoney
         })
       }
     })
@@ -241,7 +234,6 @@ Page({
     // 获取用户信息
     wx.getSetting({
       success: res => {
-        console.log(res)
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
@@ -265,6 +257,7 @@ Page({
         this.setData({
           openid: res.result.userInfo.openId
         })
+        this.getList(this.getDate())
       }
     })
   },

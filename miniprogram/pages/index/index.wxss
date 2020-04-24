@@ -131,6 +131,17 @@ input{
   border-bottom: 2rpx solid #409EFF;
   border-radius: 0 0 20rpx 0;
 }
+.total{
+  padding: 6rpx 40rpx;
+
+}
+.total-title{
+
+}
+.total-money{
+  margin-left: 20rpx;
+  font-weight: 600;
+}
 .item{
   padding: 6rpx 40rpx;
 }
@@ -139,9 +150,11 @@ input{
 }
 .item-even{
   color: #409EFF;
+  margin-left: 20rpx;
 }
 .item-money{
   color: #1AAD19;
+  margin-left: 20rpx;
 }
 
 .box-transition {
