@@ -44,7 +44,6 @@ Page({
     this.getDateTitle('last')
   },
   goNext() {
-    console.log(1)
     this.getDateTitle('next')
   },
   dayClick(e) {
@@ -108,6 +107,7 @@ Page({
       year,
       month,
       active: false,
+      totalMoney: 0,
       moneyList: []
     })
   },
@@ -126,6 +126,7 @@ Page({
       year,
       month,
       active: false,
+      totalMoney: 0,
       moneyList: []
     })
   },
