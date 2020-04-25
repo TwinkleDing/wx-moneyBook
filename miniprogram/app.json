@@ -1,9 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions"
+    "pages/index/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
