@@ -1,13 +1,13 @@
 export default {
   addMoney(params) {
     return new Promise((resolve, reject)=>{
-      if(!params._openid) {
-        resolve({
-          data: null,
-          code: 400,
-          msg: '缺少openid'
-        })
-      }
+      // if(!params._openid) {
+      //   resolve({
+      //     data: null,
+      //     code: 400,
+      //     msg: '缺少openid'
+      //   })
+      // }
       const db = wx.cloud.database()
         db.collection('money_book').add({
         data: {

@@ -173,8 +173,10 @@ input{
   color: #1AAD19;
   width: 128rpx;
   text-align: right;
-
   font-weight: 600;
+}
+.item .tag{
+  line-height: 40rpx;
 }
 .item-1{
   display: inline-block;
@@ -191,6 +193,13 @@ input{
   height: 0rpx;
   overflow: auto;
 }
-.ani-box-show {
-  height: 310rpx;
+.ani-box-show{
+  height: 400rpx;
+}
+.tags{
+  padding-bottom: 20rpx;
+}
+.tag{
+  display: inline-block;
+  padding: 0 12rpx;
 }

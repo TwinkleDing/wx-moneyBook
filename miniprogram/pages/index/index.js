@@ -26,7 +26,39 @@ Page({
     extraClasses: '',
     totalMoney: '',
     time: false,
-    sd:'123'
+    sd:'123',
+    moneyTypeList: [
+      {
+        title: '衣',
+        value: 1
+      },
+      {
+        title: '食',
+        value: 2
+      },
+      {
+        title: '住',
+        value: 3
+      },
+      {
+        title: '行',
+        value: 4
+      },
+      {
+        title: '用',
+        value: 5
+      },
+      {
+        title: '玩',
+        value: 6
+      },
+      {
+        title: '其他',
+        value: 7
+      }
+    ],
+    clickMoneyType: false,
+    clickMoneyTypeName: ''
   },
   showInputS() {
     this.setData({
@@ -57,6 +89,15 @@ Page({
     })
     let showDate= `${this.data.year}-${this.data.month}-${this.data.day}`
     this.getList(showDate)
+  },
+  tagClick(e) {
+    let type = e.currentTarget.dataset.type
+    let typeName = e.currentTarget.dataset.typeName
+    type === this.data.clickMoneyType ? type = false : ''
+    this.setData({
+      clickMoneyType: type,
+      clickMoneyTypeName: typeName,
+    })
   },
   moveStart(e) {
     this.setData({
@@ -176,7 +217,9 @@ Page({
       let moneyList = res.data.map(item=>{
         return {
           even: item.even,
-          money: Number(item.money).toFixed(2)
+          money: Number(item.money).toFixed(2),
+          type: item.type,
+          typeName: item.typeName
         }
       })
       let totalMoney = moneyList.reduce((last, item)=>{
@@ -207,6 +250,10 @@ Page({
       date: date,
       money: Number(this.data.money),
       even: this.data.even,
+    }
+    if( this.data.clickMoneyType ) {
+      params.type = this.data.clickMoneyType
+      params.typeName = this.data.clickMoneyTypeName
     }
     db.addMoney(params).then(res=>{
       setTimeout(() => {

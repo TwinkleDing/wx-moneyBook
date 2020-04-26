@@ -1,12 +1,13 @@
 /* components/tags/tags.wxss */
 .tags {
-  padding: 6rpx 10rpx;
+  padding: 6rpx 16rpx;
   border-radius: 10rpx;
   display: inline-block;
+  border: 1px solid transparent;
 }
 .default {
   color: #409eff;
-  border: 1px solid #d9ecff;
+  border-color: #d9ecff;
   background-color: #ecf5ff;
 }
 .success {

@@ -38,9 +38,12 @@
         </view>
         <input bindinput="moneyInput" value='{{ money }}' type='digit' placeholder="花了多钱 ？？？" />
       </view>
+      <view class='input-view tags'>
+        <tags bindtap='tagClick' class='tag' size='32' title='{{ item.title }}' data-type='{{ item.value }}' data-type-name='{{ item.title }}' wx:key='index' type="{{ item.value === clickMoneyType ? 'success' : 'default' }}" wx:for="{{ moneyTypeList }}" />
+      </view>
       <view class='input-view'>
-      <button type='primary' size='mini' bindtap="closeInputS" >取消</button>
-      <button type='primary' size='mini' bindtap="addMoney" >添加</button>
+        <button type='primary' size='mini' bindtap="closeInputS" >取消</button>
+        <button type='primary' size='mini' bindtap="addMoney" >添加</button>
       </view>
     </view>
     <view class='input-box' wx:if="{{ !showInput }}">
@@ -60,6 +63,7 @@
           <view class='item'>
             <text class='item-even item-1'>{{ item.even }}</text>
             <text class='item-money item-2'>{{ item.money }}</text>
+            <tags class='tag' size='32' type='success' title='{{ item.typeName }}' />
           </view>
         </view>
       </view>
