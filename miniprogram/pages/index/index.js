@@ -26,7 +26,6 @@ Page({
     extraClasses: '',
     totalMoney: '',
     time: false,
-    sd:'123',
     moneyTypeList: [
       {
         title: '衣',

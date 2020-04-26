@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "u-charts": "/components/u-charts/u-charts"
+  }
+}

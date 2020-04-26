@@ -3,6 +3,7 @@ var _self;
 var canvaColumn = null;
 var canvaLineA = null;
 var canvaCandle = null;
+const app = getApp()
 Component({
   data: {
     cWidth: '',
@@ -12,36 +13,27 @@ Component({
     id: { // 属性名
       type: String,
       value: ''
+    },
+    chartData: {
+      type: Object,
+      observer(a) {
+        console.log(a)
+      },
     }
   },
   lifetimes: {
-    attached() {
-      // 在组件实例进入页面节点树时执行
+    ready () {
       _self=this;
       this.cWidth = wx.getSystemInfoSync().windowWidth;
       this.cHeight = 500 / 750 * wx.getSystemInfoSync().windowWidth;
-      this.getServerData();
-      console.log(this.id)
+      console.log(this.data.id)
+      console.log(this.data.chartData)
+      console.log(app.globalData.chartData)
+      console.log(app.globalData.chartDataId)
+      this.showColumn(app.globalData.chartDataId, app.globalData.chartData);
     },
   },
   methods: {
-    getServerData: function() {
-      wx.request({
-        url: 'https://www.ucharts.cn/data.json',
-        data: {
-        },
-        success: function (res) {
-          console.log(res.data.data)
-          let Column = { categories: [], series: [] };
-          Column.categories = res.data.data.ColumnB.categories;
-          Column.series = res.data.data.ColumnB.series;
-          _self.showColumn("canvasColumn", Column);
-        },
-        fail: () => {
-          console.log("请点击右上角【详情】，启用不校验合法域名");
-        },
-      });
-    },
     showColumn(canvasId, chartData) {
       canvaColumn = new uCharts({
         $this: _self,

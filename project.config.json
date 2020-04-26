@@ -58,6 +58,12 @@
 					"name": "db guide",
 					"pathName": "pages/databaseGuide/databaseGuide",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "统计",
+					"pathName": "pages/statistic/statistic",
+					"scene": null
 				}
 			]
 		}
