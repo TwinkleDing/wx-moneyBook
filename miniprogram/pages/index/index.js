@@ -24,7 +24,8 @@ Page({
     moveX: '',
     extraClasses: '',
     totalMoney: '',
-    time: false
+    time: false,
+    sd:'123'
   },
   showInputS() {
     this.setData({

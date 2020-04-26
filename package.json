@@ -1,0 +1,23 @@
+{
+  "name": "wx-moneybook",
+  "version": "1.0.0",
+  "description": "基于云开发的记账小程序   主要运用了云开发的数据库，把每条信息进行存取",
+  "main": "index.js",
+  "dependencies": {
+    "weui-miniprogram": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwinkleDing/wx-moneyBook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TwinkleDing/wx-moneyBook/issues"
+  },
+  "homepage": "https://github.com/TwinkleDing/wx-moneyBook#readme"
+}
