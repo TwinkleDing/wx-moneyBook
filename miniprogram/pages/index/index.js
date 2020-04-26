@@ -1,4 +1,5 @@
 //index.js
+import db from './db.js';
 const app = getApp()
 
 Page({
@@ -75,9 +76,9 @@ Page({
       this.getNow()
     }
     this.boxList()
-    if(this.data.year === this.data.nowYear && this.data.month === this.data.nowMonth) {
-      this.getList(this.getDate())
-    }
+    // if(this.data.year === this.data.nowYear && this.data.month === this.data.nowMonth) {
+    //   this.getList(this.getDate())
+    // }
   },
   getNow() {
     const year = new Date().getFullYear()
@@ -167,30 +168,24 @@ Page({
     })
   },
   getList(date) {
-    if(!this.data.openid) {
-      return false
-    }
-    const db = wx.cloud.database()
-    // 查询当前用户所有的 counters
-    db.collection('money_book').where({
+    const params = {
       _openid: this.data.openid,
       date: date
-    }).get({
-      success: res => {
-        let moneyList = res.data.map(item=>{
-          return {
-            even: item.even,
-            money: Number(item.money).toFixed(2)
-          }
-        })
-        let totalMoney = moneyList.reduce((last, item)=>{
-          return last + Number(item.money)
-        },0)
-        this.setData({
-          moneyList,
-          totalMoney: totalMoney.toFixed(2)
-        })
-      }
+    }
+    db.getList(params).then(res=>{
+      let moneyList = res.data.map(item=>{
+        return {
+          even: item.even,
+          money: Number(item.money).toFixed(2)
+        }
+      })
+      let totalMoney = moneyList.reduce((last, item)=>{
+        return last + Number(item.money)
+      },0)
+      this.setData({
+        moneyList,
+        totalMoney: totalMoney.toFixed(2)
+      })
     })
   },
   addMoney() {
@@ -200,13 +195,6 @@ Page({
     this.setData({
       time: true
     })
-    if(!this.data.openid) {
-      wx.showToast({
-        title: '无登录无法添加',
-        icon: 'none'
-      })
-      return false
-    }
     const date = `${this.data.year}-${this.data.month}-${this.data.day}`
     if(!this.data.even.replace(/(^\s*)|(\s*$)/g, "") || !this.data.money.replace(/(^\s*)|(\s*$)/g, "")) {
       wx.showToast({
@@ -215,25 +203,28 @@ Page({
       })
       return false
     }
-    const db = wx.cloud.database()
-    db.collection('money_book').add({
-      data: {
-        money: Number(this.data.money),
-        even: this.data.even,
-        date
-      },
-      success: res => {
-        // 在返回结果中会包含新创建的记录的 _id
-        wx.showToast({
-          title: '记账成功',
+    const params = {
+      date: date,
+      money: Number(this.data.money),
+      even: this.data.even,
+    }
+    db.addMoney(params).then(res=>{
+      setTimeout(() => {
+        this.setData({
+          time: false
         })
-        setTimeout(() => {
-          this.setData({
-            time: false
-          })
-        }, 1000);
+      }, 1000);
+      if(res.code === 200) {
+        wx.showToast({
+          title: res.msg,
+        })
         this.closeInputS()
         this.getList(this.getDate())
+      }else {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        })
       }
     })
   },

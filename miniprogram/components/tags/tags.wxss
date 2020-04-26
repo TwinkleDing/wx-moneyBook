@@ -1,0 +1,31 @@
+/* components/tags/tags.wxss */
+.tags {
+  padding: 6rpx 10rpx;
+  border-radius: 10rpx;
+  display: inline-block;
+}
+.default {
+  color: #409eff;
+  border: 1px solid #d9ecff;
+  background-color: #ecf5ff;
+}
+.success {
+  background-color: #f0f9eb;
+  border-color: #e1f3d8;
+  color: #67c23a;
+}
+.info {
+  background-color: #f4f4f5;
+  border-color: #e9e9eb;
+  color: #909399;
+}
+.warning {
+  background-color: #fdf6ec;
+  border-color: #faecd8;
+  color: #e6a23c;
+}
+.danger {
+  background-color: #fef0f0;
+  border-color: #fde2e2;
+  color: #f56c6c;
+}

@@ -7,7 +7,6 @@
     </view>
     <!-- <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
   </view>
-  <u-charts id='{{ sd }}'></u-charts>
   <view class='calendar'>
     <view class='box'>
       <view class='title'>
