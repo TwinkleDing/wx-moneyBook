@@ -1,5 +1,5 @@
 <!--miniprogram/pages/statistic/statistic.wxml-->
 <view>
-  <u-charts id='chartColumn' />
-  <!-- <u-charts id='chartPie' /> -->
+  <canvas canvas-id="chartColumn" class="charts" bindtouchstart="touchColumn" />
+  <canvas canvas-id="chartPie" class="charts" bindtouchstart="touchPie" />
 </view>

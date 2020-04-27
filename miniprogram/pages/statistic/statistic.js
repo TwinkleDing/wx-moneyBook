@@ -1,11 +1,12 @@
 // miniprogram/pages/statistic/statistic.js
 const app = getApp()
+import uCharts from '../../components/u-charts/uCharts.js';
+var canvas = null;
 Page({
   data: {
-    columnData: {},
-    id: 'cloumn'
+    cWidth: wx.getSystemInfoSync().windowWidth,
+    cHeight: 500 / 750 * wx.getSystemInfoSync().windowWidth,
   },
-  
   getServerData() {
     wx.request({
       url: 'https://www.ucharts.cn/data.json',
@@ -22,7 +23,7 @@ Page({
             width: 10
           }
         }
-        this.selectComponent('#chartColumn').showColumn(Column);
+        this.showColumn('chartColumn', Column);
         Pie.series = res.data.data.Pie.series;
         Pie.type = 'pie';
         Pie.extra= {
@@ -30,11 +31,56 @@ Page({
             labelWidth:15
           }
         }
-        // this.selectComponent('#chartType').showColumn("chartType", Pie);
+        this.showColumn("chartPie", Pie);
       },
       fail: () => {
         console.log("请点击右上角【详情】，启用不校验合法域名");
       },
+    });
+  },
+  showColumn(id,chartData) {
+    canvas = new uCharts({
+      $this: this,
+      canvasId: id,
+      type: chartData.type,
+      categories: chartData.categories,
+      series: chartData.series,
+      width: this.data.cWidth ,
+      height: this.data.cHeight ,
+      fontSize: 13,
+      background: '#FFFFFF',
+      pixelRatio: 1,
+      animation: true,
+      xAxis: {
+        disableGrid: true,
+      },
+      yAxis: {
+        //disabled:true
+      },
+      dataLabel: true,
+      extra: chartData.extra
+    });
+  },
+  touchColumn(e) {
+    canvas.showToolTip(e, {
+      format: function (item, category) {
+        if (typeof item.data === 'object') {
+          return category + ' ' + item.name + ':' + item.data.value
+        } else {
+          return category + ' ' + item.name + ':' + item.data
+        }
+      }
+    });
+  },
+  touchPie(e) {
+    canvas.showToolTip(e, {
+      format: function (item) {
+        if (typeof item.data === 'object') {
+          return item.name + ':' + item.data.value
+        } else {
+          return item.name + ':' + item.data
+        }
+      }
     });
   },
   /**
