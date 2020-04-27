@@ -1,4 +1,4 @@
 <!--miniprogram/pages/statistic/statistic.wxml-->
 <view>
-  <u-charts data='{{columnData}}' id='column' />
+  <u-charts class='chart' />
 </view>

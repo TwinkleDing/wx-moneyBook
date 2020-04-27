@@ -1,37 +1,17 @@
 import uCharts from './uCharts.js';
 var _self;
 var canvaColumn = null;
-var canvaLineA = null;
-var canvaCandle = null;
-const app = getApp()
 Component({
   data: {
     cWidth: '',
     cHeight: '',
   },
-  properties: {
-    id: { // 属性名
-      type: String,
-      value: ''
-    },
-    chartData: {
-      type: Object,
-      observer(a) {
-        console.log(a)
-      },
-    }
-  },
   lifetimes: {
-    ready () {
+    attached() {
       _self=this;
       this.cWidth = wx.getSystemInfoSync().windowWidth;
       this.cHeight = 500 / 750 * wx.getSystemInfoSync().windowWidth;
-      console.log(this.data.id)
-      console.log(this.data.chartData)
-      console.log(app.globalData.chartData)
-      console.log(app.globalData.chartDataId)
-      this.showColumn(app.globalData.chartDataId, app.globalData.chartData);
-    },
+    }
   },
   methods: {
     showColumn(canvasId, chartData) {
@@ -74,6 +54,6 @@ Component({
           }
         }
       });
-    }
+    },
   }
 })

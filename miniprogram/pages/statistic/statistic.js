@@ -2,8 +2,10 @@
 const app = getApp()
 Page({
   data: {
-    columnData: {}
+    columnData: {},
+    id: 'cloumn'
   },
+  
   getServerData() {
     wx.request({
       url: 'https://www.ucharts.cn/data.json',
@@ -13,19 +15,16 @@ Page({
         let Column = { categories: [], series: [] };
         Column.categories = res.data.data.ColumnB.categories;
         Column.series = res.data.data.ColumnB.series;
-        console.log(Column)
-        this.setData({
-          columnData: Column
-        })
-        app.globalData.chartData = Column
-        app.globalData.chartDataId = 'Column'
+        //自定义标签颜色和字体大小
+        Column.series[1].textColor = 'red';
+        Column.series[1].textSize = 18;
+        this.selectComponent('.chart').showColumn("canvasColumn", Column);
       },
       fail: () => {
         console.log("请点击右上角【详情】，启用不校验合法域名");
       },
     });
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
