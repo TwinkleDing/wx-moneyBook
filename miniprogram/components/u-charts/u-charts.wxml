@@ -1,3 +1,4 @@
 <view class="qiun-charts">
-  <canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" bindtouchstart="touchColumn"></canvas>
+{{id}}
+  <canvas canvas-id="{{id}}" class="charts" bindtouchstart="touchColumn" />
 </view>

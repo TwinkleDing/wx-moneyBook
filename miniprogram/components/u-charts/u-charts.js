@@ -8,24 +8,29 @@ Component({
   },
   lifetimes: {
     attached() {
+      this.setData({
+        id: this.id
+      })
       _self=this;
       this.cWidth = wx.getSystemInfoSync().windowWidth;
       this.cHeight = 500 / 750 * wx.getSystemInfoSync().windowWidth;
     }
   },
   methods: {
-    showColumn(canvasId, chartData) {
+    showColumn(chartData) {
+      console.log(this.id)
       canvaColumn = new uCharts({
         $this: _self,
-        canvasId: canvasId,
-        type: 'column',
-        legend: true,
-        fontSize: 11,
+        canvasId: this.id,
+        type: chartData.type,
+        categories: chartData.categories,
+        series: chartData.series,
+        width: _self.cWidth ,
+        height: _self.cHeight ,
+        fontSize: 13,
         background: '#FFFFFF',
         pixelRatio: 1,
         animation: true,
-        categories: chartData.categories,
-        series: chartData.series,
         xAxis: {
           disableGrid: true,
         },
@@ -33,14 +38,7 @@ Component({
           //disabled:true
         },
         dataLabel: true,
-        width: _self.cWidth ,
-        height: _self.cHeight ,
-        extra: {
-          column: {
-            type: 'group',
-            width: _self.cWidth * 0.45 / chartData.categories.length
-          }
-        }
+        extra: chartData.extra
       });
 
     },

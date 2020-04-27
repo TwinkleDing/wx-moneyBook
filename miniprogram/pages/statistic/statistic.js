@@ -13,12 +13,24 @@ Page({
       },
       success: (res)=> {
         let Column = { categories: [], series: [] };
+        let Pie = { series: [] };
         Column.categories = res.data.data.ColumnB.categories;
         Column.series = res.data.data.ColumnB.series;
-        //自定义标签颜色和字体大小
-        Column.series[1].textColor = 'red';
-        Column.series[1].textSize = 18;
-        this.selectComponent('.chart').showColumn("canvasColumn", Column);
+        Column.type = 'column'
+        Column.extra = {
+          column: {
+            width: 10
+          }
+        }
+        this.selectComponent('#chartColumn').showColumn(Column);
+        Pie.series = res.data.data.Pie.series;
+        Pie.type = 'pie';
+        Pie.extra= {
+          pie: {
+            labelWidth:15
+          }
+        }
+        // this.selectComponent('#chartType').showColumn("chartType", Pie);
       },
       fail: () => {
         console.log("请点击右上角【详情】，启用不校验合法域名");

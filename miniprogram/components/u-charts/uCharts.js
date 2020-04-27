@@ -5214,7 +5214,7 @@ var Charts = function Charts(opts) {
   config$$1.toolTipLineHeight = config.toolTipLineHeight * opts.pixelRatio;
   config$$1.columePadding = config.columePadding * opts.pixelRatio;
   opts.$this = opts.$this ? opts.$this : this;
-  
+  console.log(opts.canvasId)
   this.context = wx.createCanvasContext(opts.canvasId, opts.$this);
   /* 兼容原生H5
   this.context = document.getElementById(opts.canvasId).getContext("2d");

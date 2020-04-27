@@ -1,5 +1,6 @@
 .qiun-charts {
   background-color: #FFFFFF;
+  height: 500rpx;
 }
 .charts {
   width: 750rpx;
