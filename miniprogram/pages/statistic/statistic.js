@@ -1,45 +1,107 @@
 // miniprogram/pages/statistic/statistic.js
-const app = getApp()
+import db from '../index/db.js';
 import uCharts from '../../components/u-charts/uCharts.js';
-var canvas = null;
+var canvasColumn = null;
+var canvasPie = null;
 Page({
   data: {
     cWidth: wx.getSystemInfoSync().windowWidth,
     cHeight: 500 / 750 * wx.getSystemInfoSync().windowWidth,
   },
   getServerData() {
-    wx.request({
-      url: 'https://www.ucharts.cn/data.json',
-      data: {
-      },
-      success: (res)=> {
-        let Column = { categories: [], series: [] };
-        let Pie = { series: [] };
-        Column.categories = res.data.data.ColumnB.categories;
-        Column.series = res.data.data.ColumnB.series;
-        Column.type = 'column'
-        Column.extra = {
-          column: {
-            width: 10
-          }
+    const openid =wx.getStorageSync('openid')
+    const params = {
+      _openid: openid
+    }
+    db.getList(params).then(res=>{
+      this.getColumnData(res.data)
+      this.getPieData(res.data)
+    })
+  },
+  getColumnData(data) {
+    let showData = new Map()
+    for (let i of data) {
+      if(showData.has(i.date)) {
+        showData.set(i.date, showData.get(i.date) + i.money)
+      }else{
+        showData.set(i.date, i.money)
+      }
+    }
+    let moneyList = []
+    let dateList = []
+    for (let [key, value] of showData ) {
+      dateList.push(key.slice(5))
+      moneyList.push(value)
+    }
+    let Column = { categories: [], series: [] };
+      Column.categories = dateList;
+      Column.series = [{
+        name: '这些天消费',
+        data: moneyList
+      }];
+      Column.type = 'column'
+      Column.extra = {
+        column: {
+          width: 10
         }
-        this.showColumn('chartColumn', Column);
-        Pie.series = res.data.data.Pie.series;
-        Pie.type = 'pie';
-        Pie.extra= {
-          pie: {
-            labelWidth:15
-          }
-        }
-        this.showColumn("chartPie", Pie);
-      },
-      fail: () => {
-        console.log("请点击右上角【详情】，启用不校验合法域名");
-      },
-    });
+      }
+      this.showColumn('chartColumn2', Column);
+      this.selectComponent('#chartColumn').showColumn(Column);
+    },
+  getPieData(data) {
+    let showData = new Map()
+    for (let i of data) {
+      i.typeName = i.typeName ? i.typeName : '其他'
+      if(showData.has(i.typeName)) {
+        showData.set(i.typeName, showData.get(i.typeName) + i.money)
+      }else{
+        showData.set(i.typeName, i.money)
+      }
+    }
+    let list = []
+    for (let [key, value] of showData ) {
+      list.push({
+        name: key,
+        data: value
+      })
+    }
+    let Pie = { series: [] };
+    Pie.series = list;
+    Pie.type = 'pie';
+    Pie.extra= {
+      pie: {
+        labelWidth:15
+      }
+    }
+    Pie.type='pie'
+    this.showPie("chartPie2", Pie);
+    this.selectComponent('#chartPie').showColumn(Pie);
   },
   showColumn(id,chartData) {
-    canvas = new uCharts({
+    canvasColumn = new uCharts({
+      $this: this,
+      canvasId: id,
+      type: chartData.type,
+      categories: chartData.categories,
+      series: chartData.series,
+      width: this.data.cWidth ,
+      height: this.data.cHeight ,
+      fontSize: 13,
+      background: '#FFFFFF',
+      pixelRatio: 1,
+      animation: true,
+      xAxis: {
+        disableGrid: true,
+      },
+      yAxis: {
+        //disabled:true
+      },
+      dataLabel: true,
+      extra: chartData.extra
+    });
+  },
+  showPie(id,chartData) {
+    canvasPie = new uCharts({
       $this: this,
       canvasId: id,
       type: chartData.type,
@@ -62,7 +124,7 @@ Page({
     });
   },
   touchColumn(e) {
-    canvas.showToolTip(e, {
+    canvasColumn.showToolTip(e, {
       format: function (item, category) {
         if (typeof item.data === 'object') {
           return category + ' ' + item.name + ':' + item.data.value
@@ -73,7 +135,7 @@ Page({
     });
   },
   touchPie(e) {
-    canvas.showToolTip(e, {
+    canvasPie.showToolTip(e, {
       format: function (item) {
         if (typeof item.data === 'object') {
           return item.name + ':' + item.data.value

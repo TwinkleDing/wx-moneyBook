@@ -1,10 +1,10 @@
 import uCharts from './uCharts.js';
 var _self;
-var canvaColumn = null;
 Component({
   data: {
     cWidth: '',
     cHeight: '',
+    canvas: true
   },
   lifetimes: {
     attached() {
@@ -18,8 +18,7 @@ Component({
   },
   methods: {
     showColumn(chartData) {
-      console.log(this.id)
-      canvaColumn = new uCharts({
+      let canvas = new uCharts({
         $this: _self,
         canvasId: this.id,
         type: chartData.type,
@@ -40,10 +39,10 @@ Component({
         dataLabel: true,
         extra: chartData.extra
       });
-
+      _self.canvas = canvas
     },
     touchColumn(e) {
-      canvaColumn.showToolTip(e, {
+      this.canvas.showToolTip(e, {
         format: function (item, category) {
           if (typeof item.data === 'object') {
             return category + ' ' + item.name + ':' + item.data.value
