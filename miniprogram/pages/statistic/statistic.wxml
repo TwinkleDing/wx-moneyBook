@@ -2,6 +2,4 @@
 <view>
   <u-charts id='chartColumn' canvas-id="chartColumn" />
   <u-charts id='chartPie' canvas-id="chartPie" />
-  <canvas canvas-id="chartColumn2" class="charts" bindtouchstart="touchColumn" />
-  <canvas canvas-id="chartPie2" class="charts" bindtouchstart="touchPie" />
 </view>

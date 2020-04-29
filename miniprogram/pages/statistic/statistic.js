@@ -1,8 +1,4 @@
 // miniprogram/pages/statistic/statistic.js
-import db from '../index/db.js';
-import uCharts from '../../components/u-charts/uCharts.js';
-var canvasColumn = null;
-var canvasPie = null;
 Page({
   data: {
     cWidth: wx.getSystemInfoSync().windowWidth,
@@ -13,9 +9,12 @@ Page({
     const params = {
       _openid: openid
     }
-    db.getList(params).then(res=>{
-      this.getColumnData(res.data)
-      this.getPieData(res.data)
+    wx.cloud.callFunction({
+      name: 'getList',
+      data: {...params}
+    }).then(res=> {
+      this.getColumnData(res.result.data)
+      this.getPieData(res.result.data)
     })
   },
   getColumnData(data) {
@@ -34,7 +33,7 @@ Page({
       moneyList.push(value)
     }
     let Column = { categories: [], series: [] };
-      Column.categories = dateList;
+      Column.categories = [...dateList];
       Column.series = [{
         name: '这些天消费',
         data: moneyList
@@ -42,12 +41,11 @@ Page({
       Column.type = 'column'
       Column.extra = {
         column: {
-          width: 10
+          width: 20
         }
       }
-      this.showColumn('chartColumn2', Column);
       this.selectComponent('#chartColumn').showColumn(Column);
-    },
+  },
   getPieData(data) {
     let showData = new Map()
     for (let i of data) {
@@ -74,81 +72,13 @@ Page({
       }
     }
     Pie.type='pie'
-    this.showPie("chartPie2", Pie);
     this.selectComponent('#chartPie').showColumn(Pie);
-  },
-  showColumn(id,chartData) {
-    canvasColumn = new uCharts({
-      $this: this,
-      canvasId: id,
-      type: chartData.type,
-      categories: chartData.categories,
-      series: chartData.series,
-      width: this.data.cWidth ,
-      height: this.data.cHeight ,
-      fontSize: 13,
-      background: '#FFFFFF',
-      pixelRatio: 1,
-      animation: true,
-      xAxis: {
-        disableGrid: true,
-      },
-      yAxis: {
-        //disabled:true
-      },
-      dataLabel: true,
-      extra: chartData.extra
-    });
-  },
-  showPie(id,chartData) {
-    canvasPie = new uCharts({
-      $this: this,
-      canvasId: id,
-      type: chartData.type,
-      categories: chartData.categories,
-      series: chartData.series,
-      width: this.data.cWidth ,
-      height: this.data.cHeight ,
-      fontSize: 13,
-      background: '#FFFFFF',
-      pixelRatio: 1,
-      animation: true,
-      xAxis: {
-        disableGrid: true,
-      },
-      yAxis: {
-        //disabled:true
-      },
-      dataLabel: true,
-      extra: chartData.extra
-    });
-  },
-  touchColumn(e) {
-    canvasColumn.showToolTip(e, {
-      format: function (item, category) {
-        if (typeof item.data === 'object') {
-          return category + ' ' + item.name + ':' + item.data.value
-        } else {
-          return category + ' ' + item.name + ':' + item.data
-        }
-      }
-    });
-  },
-  touchPie(e) {
-    canvasPie.showToolTip(e, {
-      format: function (item) {
-        if (typeof item.data === 'object') {
-          return item.name + ':' + item.data.value
-        } else {
-          return item.name + ':' + item.data
-        }
-      }
-    });
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getServerData()
   },
 
   /**
@@ -162,7 +92,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getServerData()
   },
 
   /**

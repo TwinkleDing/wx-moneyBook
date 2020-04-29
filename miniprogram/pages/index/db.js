@@ -34,7 +34,7 @@ export default {
         })
       }
       const db = wx.cloud.database()
-      // 查询当前用户所有的 counters
+      // 查询当前用户所有的 counters,只能查到20条
       db.collection('money_book').where({
         ...params
       }).get({

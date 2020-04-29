@@ -1,3 +1,3 @@
 <view class="qiun-charts">
-  <canvas wx:if='{{id}}' canvas-id="{{id}}" class="charts" bindtouchstart="touchColumn" />
+  <canvas wx:if='{{id}}' canvas-id="{{id}}" class="charts" bindtouchstart="touchColumn" bindtouchmove="moveCandle" bindtouchend="touchEndCandle"/>
 </view>
