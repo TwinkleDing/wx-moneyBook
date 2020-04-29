@@ -44,7 +44,9 @@ Page({
           width: 20
         }
       }
-      this.selectComponent('#chartColumn').showColumn(Column);
+      if(Column.categories.length) {
+        this.selectComponent('#chartColumn').showColumn(Column);
+      }
   },
   getPieData(data) {
     let showData = new Map()
@@ -78,7 +80,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getServerData()
   },
 
   /**
@@ -92,6 +93,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.getServerData()
   },
 
   /**

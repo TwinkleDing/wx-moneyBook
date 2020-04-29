@@ -27,7 +27,7 @@ Component({
         fontSize: 13,
         background: '#FFFFFF',
         pixelRatio: 1,
-        animation: true,
+        animation: false,
         enableScroll: chartData.categories && chartData.categories.length > 8 ? true : false,
         xAxis: {
           disableGrid: true,
