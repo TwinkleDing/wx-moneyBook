@@ -31,7 +31,7 @@ Component({
         enableScroll: chartData.categories && chartData.categories.length > 8 ? true : false,
         xAxis: {
           disableGrid: true,
-          itemCount: 10,
+          itemCount: 8,
           scrollShow: true,
           labelCount: chartData.categories && chartData.categories.length > 8 ? 4 : false,
         },
