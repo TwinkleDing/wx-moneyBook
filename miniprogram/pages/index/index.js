@@ -80,11 +80,13 @@ Page({
     this.getDateTitle('next')
   },
   dayClick(e) {
+    let day = e.currentTarget.dataset.day
+    day = day < 9 ? '0' + day : day
     this.setData({
       active: e.currentTarget.dataset.day,
       year: this.data.year,
       month: this.data.month,
-      day: e.currentTarget.dataset.day,
+      day: day,
     })
     let showDate= `${this.data.year}-${this.data.month}-${this.data.day}`
     this.getList(showDate)
@@ -122,8 +124,8 @@ Page({
   },
   getNow() {
     const year = new Date().getFullYear()
-    const month = new Date().getMonth()<9 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
-    const day = new Date().getDate()
+    const month = new Date().getMonth() < 9 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
+    const day = new Date().getDate() < 9 ? '0' + new Date().getDate() : new Date().getDate()
     this.setData({
       titleDate: year + '-' + month,
       year,
@@ -175,9 +177,9 @@ Page({
   boxList() {
     const dayFirst = new Date(`${this.data.year}/${this.data.month}/1`).getDay()
     let dayLength = 31
-    if([4,6,9,11].includes(this.data.month)) {
+    if([4,6,9,11].includes(Number(this.data.month))) {
       dayLength = 30
-    }else if([2].includes(this.data.month)) {
+    }else if([2].includes(Number(this.data.month))) {
       if (this.data.year % 4 === 0 && (this.data.year % 100 !== 0 || this.data.year % 400 === 0)) {
         dayLength = 29
       } else {
@@ -242,6 +244,13 @@ Page({
       wx.showToast({
         icon: 'none',
         title: '不能为空'
+      })
+      return false
+    }
+    if(!this.data.clickMoneyType) {
+      wx.showToast({
+        icon: 'none',
+        title: '请选择类型'
       })
       return false
     }

@@ -20,7 +20,7 @@
         </view>
         <view class='content-box' bind:touchstart='moveStart' bind:touchend='moveEnd'>
           <view bindtap="dayClick" data-index='{{ index }}' data-day='{{ item }}' class='content-box-item' wx:key='index' wx:for="{{ dateList }}">
-            <text class='{{ item === nowDay && nowYear === year && nowMonth === month ? "now-day" : "" }} {{ item && item === active ? "active" : "" }}'>{{ item }}</text>
+            <text class='{{ item == nowDay && nowYear === year && nowMonth === month ? "now-day" : "" }} {{ item && item === active ? "active" : "" }}'>{{ item }}</text>
           </view>
         </view>
       </view>
