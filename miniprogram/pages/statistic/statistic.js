@@ -5,9 +5,12 @@ Page({
     cHeight: 500 / 750 * wx.getSystemInfoSync().windowWidth,
   },
   getServerData() {
-    const openid =wx.getStorageSync('openid')
+    const openid = wx.getStorageSync('openid')
+    const getDate = this.getDate()
     const params = {
-      _openid: openid
+      _openid: openid,
+      gte:`${getDate.year}-${getDate.month}-01`,
+      lte: `${getDate.year}-${getDate.month}-${getDate.day}`,
     }
     wx.cloud.callFunction({
       name: 'getList',
@@ -26,16 +29,18 @@ Page({
         showData.set(i.date, i.money)
       }
     }
-    let moneyList = []
-    let dateList = []
-    for (let [key, value] of showData ) {
-      dateList.push(key.slice(5))
-      moneyList.push(value)
-    }
-    let Column = { categories: [], series: [] };
+    const arrayObj=Array.from(showData)
+    const list = arrayObj.sort(function(a,b){return a[0].localeCompare(b[0])})
+    const moneyList = []
+    const dateList = []
+    list.forEach(item => {
+      dateList.push(item[0])
+      moneyList.push(item[1])
+    })
+    const Column = { categories: [], series: [] };
       Column.categories = [...dateList];
       Column.series = [{
-        name: '这些天消费',
+        name: '当月消费',
         data: moneyList
       }];
       Column.type = 'column'
@@ -49,7 +54,7 @@ Page({
       }
   },
   getPieData(data) {
-    let showData = new Map()
+    const showData = new Map()
     for (let i of data) {
       i.typeName = i.typeName ? i.typeName : '其他'
       if(showData.has(i.typeName)) {
@@ -58,14 +63,14 @@ Page({
         showData.set(i.typeName, i.money)
       }
     }
-    let list = []
+    const list = []
     for (let [key, value] of showData ) {
       list.push({
         name: key,
         data: value
       })
     }
-    let Pie = { series: [] };
+    const Pie = { series: [] };
     Pie.series = list;
     Pie.type = 'pie';
     Pie.extra= {
@@ -75,6 +80,20 @@ Page({
     }
     Pie.type='pie'
     this.selectComponent('#chartPie').showColumn(Pie);
+  },
+
+  getDate() {
+    const date = new Date()
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    month = month > 9 ? month : '0' + month
+    day = day > 9 ? day : '0' + day
+    return {
+      year,
+      month,
+      day
+    }
   },
   /**
    * 生命周期函数--监听页面加载
