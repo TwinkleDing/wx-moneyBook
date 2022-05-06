@@ -4,9 +4,12 @@
   "description": "基于云开发的记账小程序   主要运用了云开发的数据库，把每条信息进行存取",
   "main": "index.js",
   "dependencies": {
+    "@vant/weapp": "^1.10.3",
     "weui-miniprogram": "^1.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "miniprogram-api-typings": "^3.4.6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,0 +1,40 @@
+<!--pages/info.wxml-->
+<view class="info">
+  <van-collapse value="{{ activeName }}" bind:change="onChange">
+    <view wx:key='iy' wx:for="{{ list }}">
+      <van-collapse-item name="{{item.year}}">
+        <view class="title" slot="title">
+          <text>{{ item.year }} </text>
+          <text>支出</text>
+          <text> {{item.money}}</text>
+        </view>
+        <view wx:key='im' wx:for="{{ item.children }}">
+          <van-collapse-item name="{{item.month}}">
+            <view class="title" slot="title">
+              <text>{{ item.month }} </text>
+              <text>支出</text>
+              <text> {{item.money}}</text>
+            </view>
+            <view wx:key='id' wx:for="{{ item.children }}">
+              <van-collapse-item name="{{item.day}}">
+                <view class="title" slot="title">
+                  <text>{{ item.day }} </text>
+                  <text>支出</text>
+                  <text> {{item.money}}</text>
+                </view>
+                <view class="day-money" wx:key='index' wx:for="{{ item.children }}">
+                  <text class="money-date">{{item.date}}</text>
+                  <view class="money-even">
+                    <text>{{item.even}}</text>
+                    <tags style="padding-left:10px" class='tag' size='22' type='success' title='{{ item.typeName }}' />
+                  </view>
+                  <text class="money-money">{{item.money}}</text>
+                </view>
+              </van-collapse-item>
+            </view>
+          </van-collapse-item>
+        </view>
+      </van-collapse-item>
+    </view>
+  </van-collapse>
+</view>

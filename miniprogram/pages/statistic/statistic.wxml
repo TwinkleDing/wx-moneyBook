@@ -1,5 +1,5 @@
 <!--miniprogram/pages/statistic/statistic.wxml-->
-<view>
+<view class="statistic">
   <u-charts id='chartColumn' canvas-id="chartColumn" />
   <u-charts id='chartPie' canvas-id="chartPie" />
 </view>

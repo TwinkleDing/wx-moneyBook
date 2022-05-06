@@ -239,7 +239,6 @@ Page({
     this.setData({
       time: true
     })
-    const date = `${this.data.year}-${this.data.month}-${this.data.day}`
     if(!this.data.even.replace(/(^\s*)|(\s*$)/g, "") || !this.data.money.replace(/(^\s*)|(\s*$)/g, "")) {
       wx.showToast({
         icon: 'none',
@@ -254,8 +253,9 @@ Page({
       })
       return false
     }
+    const date = `${this.data.year}-${this.data.month}-${this.data.day}`
     const params = {
-      date: date,
+      date,
       money: Number(this.data.money),
       even: this.data.even,
     }

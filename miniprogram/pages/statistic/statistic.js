@@ -33,14 +33,16 @@ Page({
     const list = arrayObj.sort(function(a,b){return a[0].localeCompare(b[0])})
     const moneyList = []
     const dateList = []
+    let total = 0
     list.forEach(item => {
       dateList.push(item[0])
       moneyList.push(item[1])
+      total += item[1]
     })
     const Column = { categories: [], series: [] };
       Column.categories = [...dateList];
       Column.series = [{
-        name: '当月消费',
+        name: '当月消费: ' + total,
         data: moneyList
       }];
       Column.type = 'column'
@@ -105,14 +107,13 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.getServerData()
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getServerData()
   },
 
   /**
