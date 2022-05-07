@@ -1,6 +1,5 @@
 <!--components/tags/tags.wxml-->
 <view class='tags {{ type }}' style="font-size:{{ size }}rpx">
   {{title}}
-  <!-- <mp-icon icon="close" color="#409eff" size="{{22}}"></mp-icon> -->
 </view>
 
