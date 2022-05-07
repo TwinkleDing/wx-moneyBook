@@ -48,7 +48,13 @@ Page({
         }
       })
       let moneyList = []
+      const d = this.getDate()
       for (let [ky, vy] of yearMoney) {
+        if (ky === `${d.year}`) {
+          this.setData({
+            activeName: [ky],
+          });
+        }
         moneyList.push({
           year: ky,
           money: vy,
@@ -56,6 +62,11 @@ Page({
         })
         for (let [km, vm] of monthMoney) {
           if (km.includes(ky)) {
+            if (km === `${d.year}-${d.month}`) {
+              this.setData({
+                activeName: [...this.data.activeName, km],
+              });
+            }
             moneyList[moneyList.length - 1].children.push({
               month: km,
               money: vm,
@@ -63,7 +74,7 @@ Page({
             })
             for (let [kd, vd] of dayMoney) {
               let children = []
-              for (let i = 0; i < ch.length - 1; i++) {
+              for (let i = 0; i < ch.length; i++) {
                 if (ch[i].date === kd) {
                   children.push(ch[i])
                   ch.splice(i, 1)
@@ -71,10 +82,9 @@ Page({
                 }
               }
               if (kd.includes(km)) {
-                const d = this.getDate()
                 if (kd === `${d.year}-${d.month}-${d.day}`) {
                   this.setData({
-                    activeName: [ky, km, kd],
+                    activeName: [...this.data.activeName, kd],
                   });
                 }
                 moneyList[moneyList.length - 1].children[moneyList[moneyList.length - 1].children.length - 1].children
